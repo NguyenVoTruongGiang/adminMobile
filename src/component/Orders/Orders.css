@@ -1,0 +1,49 @@
+.container {
+  padding: 20px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.table th {
+  background-color: #f2f2f2;
+}
+
+.product-item {
+  margin-bottom: 5px;
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.status-success {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.status-pending {
+  background-color: #ff9800;
+  color: #fff;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.edit-button, .delete-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}

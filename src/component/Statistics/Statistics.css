@@ -1,0 +1,104 @@
+.container {
+  padding: 20px;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header-text {
+  font-size: 24px;
+  margin: 0;
+}
+
+.sub-header-text {
+  color: #888;
+}
+
+.percentage-container {
+  display: flex;
+  min-width: 70px;
+  align-items: center;
+}
+
+.percentage-text {
+  color: #4caf50;
+  font-size: 18px;
+  margin-right: 5px;
+}
+
+.percentage-icon {
+  background-color: #4caf50;
+  width: 35px;
+  height: 35px;
+  color: #fff;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.percentage-icon-text {
+  line-height: 35px;
+  font-size: 15px;
+}
+
+.chart-container {
+  margin-bottom: 20px;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown-button {
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.dropdown-menu button {
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.report-button {
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+}
