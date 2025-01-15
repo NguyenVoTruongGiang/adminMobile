@@ -19,37 +19,39 @@
 
 .header-text {
   font-size: 24px;
-  margin: 0;
+  font-weight: bold;
 }
 
 .sub-header-text {
+  font-size: 16px;
   color: #888;
 }
 
 .percentage-container {
   display: flex;
-  min-width: 70px;
   align-items: center;
 }
 
 .percentage-text {
+  font-size: 24px;
+  font-weight: bold;
   color: #4caf50;
-  font-size: 18px;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 .percentage-icon {
   background-color: #4caf50;
-  width: 35px;
-  height: 35px;
-  color: #fff;
   border-radius: 50%;
-  padding: 5px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .percentage-icon-text {
-  line-height: 35px;
-  font-size: 15px;
+  color: #fff;
+  font-size: 16px;
 }
 
 .chart-container {
@@ -67,11 +69,11 @@
 }
 
 .dropdown-button {
-  padding: 10px 20px;
-  cursor: pointer;
-  background-color: #f2f2f2;
+  background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
 }
 
 .dropdown-menu {
@@ -96,9 +98,9 @@
 
 .report-button {
   padding: 10px 20px;
-  cursor: pointer;
   background-color: #4caf50;
   color: #fff;
   border: none;
   border-radius: 5px;
+  cursor: pointer;
 }

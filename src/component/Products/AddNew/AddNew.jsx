@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import "./AddNew.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+// import { createProduct } from "../../api/ProductApiService";
 
 const AddNew = () => {
   const [selectedType, setSelectedType] = useState("");
@@ -20,8 +24,35 @@ const AddNew = () => {
     }
   };
 
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate(-1);
+  };
+
+  const handleCreate = async () => {
+    const newProduct = {
+      id,
+      productName,
+      price,
+      selectedType,
+      quantity,
+      imageUri,
+    };
+
+    // try {
+    //   await createProduct(newProduct);
+    //   navigate("/admin/products");
+    // } catch (error) {
+    //   console.error("Failed to create product:", error);
+    // }
+  };
+
   return (
     <div className="container">
+      <button className="swapper">
+        <FontAwesomeIcon icon={faArrowLeft} onClick={handleBack} />
+      </button>
       <div className="form-item">
         <label className="label">ID</label>
         <input
@@ -87,7 +118,7 @@ const AddNew = () => {
         {imageUri && <img src={imageUri} alt="Selected" className="image" />}
       </div>
 
-      <button className="button">Thêm sản phẩm</button>
+      <button className="button" onClick={handleCreate}>Thêm sản phẩm</button>
     </div>
   );
 };

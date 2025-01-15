@@ -1,37 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { getProducts, deleteProduct } from "../../api/ProductApiService";
 import './Products.css';
 
 const Products = ({ setCurrentProductView }) => {
-  const data = [
-    {
-      id: 1,
-      name: "Product 1",
-      type: "Type 1",
-      price: 1000,
-      quantity: 10,
-    },
-    {
-      id: 2,
-      name: "Product 2",
-      type: "Type 2",
-      price: 2000,
-      quantity: 20,
-    },
-    {
-      id: 3,
-      name: "Product 3",
-      type: "Type 3",
-      price: 3000,
-      quantity: 30,
-    },
-    {
-      id: 4,
-      name: "Product 4",
-      type: "Type 4",
-      price: 4000,
-      quantity: 40,
-    },
-  ];
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await getProducts();
+        setProducts(response.data);
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const handleDelete = async (productId) => {
+    try {
+      await deleteProduct(productId);
+      setProducts(products.filter(product => product.id !== productId));
+    } catch (error) {
+      console.error("Failed to delete product:", error);
+    }
+  };
 
   return (
     <div className="container">
@@ -48,7 +44,7 @@ const Products = ({ setCurrentProductView }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((product) => (
+          {products.map((product) => (
             <tr key={product.id}>
               <td>{product.id}</td>
               <td>{product.name}</td>
@@ -57,8 +53,18 @@ const Products = ({ setCurrentProductView }) => {
               <td>{product.quantity}</td>
               <td>
                 <div className="actions">
-                  <button className="edit-button">Edit</button>
-                  <button className="delete-button">Delete</button>
+                  <button
+                    className="edit-button"
+                    onClick={() => setCurrentProductView("EditProduct")}
+                  >
+                    <FontAwesomeIcon icon={faPenToSquare} />
+                  </button>
+                  <button
+                    className="delete-button"
+                    onClick={() => handleDelete(product.id)}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
                   <button className="upload-button">Upload hình ảnh</button>
                 </div>
               </td>

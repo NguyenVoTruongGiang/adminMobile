@@ -1,23 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./EditOrder.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate, useParams } from "react-router-dom";
+// import { getOrderById, updateOrder } from "../../api/OrderApiService";
 
 const EditOrder = () => {
-  const [selectedType, setSelectedType] = useState("Combo");
-  const [id, setId] = useState("123");
-  const [productName, setProductName] = useState("Product Name");
-  const [price, setPrice] = useState("1000");
-  const [quantity, setQuantity] = useState("10");
+  const { orderId } = useParams();
+  const [order, setOrder] = useState(null);
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   const fetchOrder = async () => {
+  //     try {
+  //       const response = await getOrderById(orderId);
+  //       setOrder(response.data);
+  //     } catch (error) {
+  //       console.error("Failed to fetch order:", error);
+  //     }
+  //   };
+
+  //   fetchOrder();
+  // }, [orderId]);
+
+  const handleBack = () => {
+    navigate(-1);
+  };
+
+  const handleUpdate = async () => {
+    // try {
+    //   await updateOrder(orderId, order);
+    //   navigate("/admin/orders");
+    // } catch (error) {
+    //   console.error("Failed to update order:", error);
+    // }
+  };
+
+  if (!order) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="container">
+      <button className="swapper">
+        <FontAwesomeIcon icon={faArrowLeft} onClick={handleBack} />
+      </button>
       <div className="form-item">
         <label className="label">ID</label>
         <input
           className="input"
           type="text"
-          placeholder="Enter ID"
-          value={id}
-          onChange={(e) => setId(e.target.value)}
+          value={order.id}
           disabled
         />
       </div>
@@ -27,9 +60,8 @@ const EditOrder = () => {
         <input
           className="input"
           type="text"
-          placeholder="Enter tên sản phẩm"
-          value={productName}
-          onChange={(e) => setProductName(e.target.value)}
+          value={order.productName}
+          onChange={(e) => setOrder({ ...order, productName: e.target.value })}
         />
       </div>
 
@@ -38,9 +70,8 @@ const EditOrder = () => {
         <input
           className="input"
           type="text"
-          placeholder="Nhập giá"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
+          value={order.price}
+          onChange={(e) => setOrder({ ...order, price: e.target.value })}
         />
       </div>
 
@@ -48,8 +79,8 @@ const EditOrder = () => {
         <label className="label">Loại giày</label>
         <select
           className="input"
-          value={selectedType}
-          onChange={(e) => setSelectedType(e.target.value)}
+          value={order.selectedType}
+          onChange={(e) => setOrder({ ...order, selectedType: e.target.value })}
         >
           <option value="Giày thể thao">Giày thể thao</option>
           <option value="Giày thường">Giày thường</option>
@@ -62,18 +93,22 @@ const EditOrder = () => {
         <input
           className="input"
           type="text"
-          placeholder="Nhập số lượng"
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
+          value={order.quantity}
+          onChange={(e) => setOrder({ ...order, quantity: e.target.value })}
         />
       </div>
 
       <div className="form-item">
         <label className="label">Time</label>
-        <input className="input" type="date" />
+        <input
+          className="input"
+          type="date"
+          value={order.time}
+          onChange={(e) => setOrder({ ...order, time: e.target.value })}
+        />
       </div>
 
-      <button className="button">Update Order</button>
+      <button className="button" onClick={handleUpdate}>Update Order</button>
     </div>
   );
 };

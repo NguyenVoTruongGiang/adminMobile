@@ -1,13 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { getUsers, deleteUser } from "../../api/UserApiService";
 import "./Users.css";
 
 const Users = ({ setCurrentUserView }) => {
-  const data = [
-    { id: 1, name: "John Doe", email: "john@example.com", role: "Admin" },
-    { id: 2, name: "Jane Smith", email: "jane@example.com", role: "User" },
-  ];
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await getUsers();
+        setUsers(response.data);
+      } catch (error) {
+        console.error("Failed to fetch users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  const handleDelete = async (userId) => {
+    try {
+      await deleteUser(userId);
+      setUsers(users.filter(user => user.id !== userId));
+    } catch (error) {
+      console.error("Failed to delete user:", error);
+    }
+  };
 
   return (
     <div className="container">
@@ -22,7 +42,7 @@ const Users = ({ setCurrentUserView }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((user) => (
+          {users.map((user) => (
             <tr key={user.id}>
               <td>{user.id}</td>
               <td>{user.name}</td>
@@ -38,7 +58,7 @@ const Users = ({ setCurrentUserView }) => {
                   </button>
                   <button
                     className="delete-button"
-                    onClick={() => console.log("Deleting user:", user.id)}
+                    onClick={() => handleDelete(user.id)}
                   >
                     <FontAwesomeIcon icon={faTrash} />
                   </button>

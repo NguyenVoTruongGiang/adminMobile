@@ -10,26 +10,28 @@ import EditProduct from './component/Products/Edit/Edit';
 import Users from './component/Users/Users';
 import AddUser from './component/Users/AddNew/AddUser';
 import EditUser from './component/Users/EditUser/EditUser';
+import Login from './component/Login/Login';
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <Routes>
-          {/* mặc định path là /admin */}
-          <Route path="/" element={<Navigate to="/admin" />} />
-          <Route path="/admin/*" element={<Admin />} />
-
-          {/* mở từng trang riêng  */}
-          <Route path="/admin/statistics" element={<StatisticsPage />} />
-          <Route path="/admin/orders" element={<Orders />} />
-          <Route path="/admin/edit-order" element={<EditOrder />} />
-          <Route path="/admin/products" element={<Products />} />
-          <Route path="/admin/add-product" element={<AddNewProduct />} />
-          <Route path="/admin/edit-product" element={<EditProduct />} />
-          <Route path="/admin/users" element={<Users />} />
-          <Route path="/admin/add-user" element={<AddUser />} />
-          <Route path="/admin/edit-user" element={<EditUser />} />
+      <Routes>
+          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/admin" element={<Admin />}>
+            <Route path="statistics" element={<StatisticsPage />} />
+            <Route path="orders" element={<Orders />} />
+            <Route path="orders/edit/:orderId" element={<EditOrder />} />
+            <Route path="products" element={<Products />} />
+            <Route path="products/add" element={<AddNewProduct />} />
+            <Route path="products/edit/:productId" element={<EditProduct />} />
+            <Route path="users" element={<Users />} />
+            <Route path="users/add" element={<AddUser />} />
+            <Route path="users/edit/:userId" element={<EditUser />} />
+            <Route path="settings" element={<div>Cài đặt</div>} />
+            <Route path="*" element={<Navigate to="statistics" />} />
+          </Route>
         </Routes>
       </div>
     </Router>
