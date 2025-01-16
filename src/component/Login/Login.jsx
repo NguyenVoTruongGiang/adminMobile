@@ -1,23 +1,63 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getUserToken } from "../../api/UserApiService";
+import {
+  getAdminToken,
+  getMyInfo,
+  refreshToken,
+} from "../../api/UserApiService";
 import "./Login.css";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setUsername] = useState("admin");
+  const [password, setPassword] = useState("admin");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token !== undefined && token !== null) {
+      navigate("/admin");
+    }
+  }, [navigate]);
 
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const response = await getUserToken({ username, password });
-      const token = response.data.token;
+      const response = await getAdminToken({ email, password });
+      console.log("response: ", response);
+      const token = response.data.data.token;
+      console.log("token: ", token);
       localStorage.setItem("token", token);
       navigate("/admin");
     } catch (err) {
-      setError("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin đăng nhập.");
+      console.error("Login failed: ", err);
+      setError(
+        "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin đăng nhập."
+      );
+    }
+
+    try {
+      if (localStorage.getItem("token")) {
+        const response = await getMyInfo();
+        console.log("response: ", response);
+        const userIdId = response.data.data.id;
+        const userEmail = response.data.data.email;
+        console.log("id: ", userIdId);
+        localStorage.setItem("id", userIdId);
+        console.log("email: ", userEmail);
+        localStorage.setItem("email", userEmail);
+
+        const intervalId = setInterval(async () => {
+        const refreshResponse = await refreshToken();
+        localStorage.setItem("token", refreshResponse.data.data.token);
+        console.log("Token refreshed: " + refreshResponse.data.data.token);
+        }, 3000000); // 300000 milliseconds = 300 seconds
+
+        // Cleanup interval on component unmount
+        return () => clearInterval(intervalId);
+      }
+    } catch (error) {
+      console.error("Failed to fetch orders:", error);
     }
   };
 
@@ -30,7 +70,7 @@ const Login = () => {
           <input
             type="text"
             className="input"
-            value={username}
+            value={email}
             onChange={(e) => setUsername(e.target.value)}
             required
           />

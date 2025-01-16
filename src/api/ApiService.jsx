@@ -1,7 +1,8 @@
+// filepath: /d:/adminMobile/adminMobile/src/api/ApiService.jsx
 import axios from "axios";
 
-// Base URL cho API
-const baseUrl = "http://localhost:8080/"; // Đảm bảo rằng API của bạn chạy trên cổng khác, chẳng hạn như 8080
+// Base URL cho API (không cần thiết khi sử dụng proxy)
+const baseUrl = "/"; // Sử dụng endpoint tương đối
 
 // Hàm lấy token từ localStorage
 const getToken = () => {
@@ -23,6 +24,7 @@ const request = async (
         "Content-Type": "application/json",
       },
       ...(data && { data }), // Chỉ thêm data nếu có
+      withCredentials: true, // Đảm bảo rằng axios gửi cookie cùng với yêu cầu
     };
 
     // Nếu cần token, thêm vào header
@@ -32,6 +34,8 @@ const request = async (
         config.headers.Authorization = `Bearer ${token}`;
       }
     }
+
+    console.log("url: ", `${baseUrl}${endpoint}`); // Sửa lại thành console.log
 
     return await axios(config);
   } catch (error) {

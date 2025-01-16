@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {useNavigate, Outlet } from "react-router-dom";
 // import Orders from "../Orders/Orders";
 // import Products from "../Products/Products";
@@ -26,6 +26,7 @@ const AdminPanel = () => {
   const [toDate, setToDate] = useState("");
   const [status, setStatus] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [email, setEmail] = useState("");
 
   const handleSearch = () => {
     console.log("Filters applied:");
@@ -37,6 +38,31 @@ const AdminPanel = () => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const userEmail = localStorage.getItem("email");
+    if (userEmail != null) {
+      setEmail(userEmail); // Cập nhật trạng thái email
+    }
+  }, []);
+
+  const handleLogout = async(event) => {
+    event.preventDefault();
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    setEmail("");
+    try {
+      const response = await logout();
+      const logout = response.code;
+      console.log("logout: ", logout);
+    } catch (error) {
+      console.error("Failed to fetch orders:", error);
+    }
+  }
+
+  const handleLogin = ()=> {
+    navigate("/login");
+  }
+
   const handleNavigation = (page) => {
     navigate(`/admin/${page}`);
   };
@@ -47,50 +73,6 @@ const AdminPanel = () => {
     setStatus("all");
     setSearchQuery("");
   };
-
-  // const renderHeader = () => {
-  //   switch (selectedPage) {
-  //     case "Statistics":
-  //       return "Thống kê";
-  //     case "Orders":
-  //       return currentOrderView === "EditOrder" ? "Chỉnh sửa đơn hàng" : "Quản lý đơn hàng";
-  //     case "Products":
-  //       return currentProductView === "EditProduct" ? "Chỉnh sửa sản phẩm" : "Quản lý sản phẩm";
-  //     case "Users":
-  //       return currentUserView === "EditUser" ? "Chỉnh sửa người dùng" : "Quản lý khách hàng";
-  //     case "Settings":
-  //       return "Cài đặt";
-  //     default:
-  //       return "Thống kê";
-  //   }
-  // };
-
-  // const renderContent = () => {
-  //   switch (selectedPage) {
-  //     case "Dashboard":
-  //       return <Statistics />;
-  //     case "Orders":
-  //       return currentOrderView === "EditOrder" ? (
-  //         <EditOrder />
-  //       ) : (
-  //         <Orders setCurrentOrderView={setCurrentOrderView} />
-  //       );
-  //     case "Products":
-  //       return currentProductView === "EditProduct" ? (
-  //         <EditProduct />
-  //       ) : (
-  //         <Products setCurrentProductView={setCurrentProductView} />
-  //       );
-  //     case "Users":
-  //       return currentUserView === "EditUser" ? (
-  //         <EditUser />
-  //       ) : (
-  //         <Users setCurrentUserView={setCurrentUserView} />
-  //       );
-  //     default:
-  //       return <Orders setCurrentOrderView={setCurrentOrderView} />;
-  //   }
-  // };
 
   return (
     <div className="admin-panel">
@@ -121,10 +103,23 @@ const AdminPanel = () => {
       </div>
       <div className="main-content">
         <div className="login-section">
-          <button className="btnLogin" onClick={() => handleNavigation("login")}>
-            <FontAwesomeIcon icon={faUser} size="lg" />
-            <span>Đăng nhập</span>
-          </button>
+        {email ? (
+            <div className="user-info">
+              <FontAwesomeIcon icon={faUser} size="lg" />
+              <span>Xin chào, {email}</span>
+            </div>
+          ) : (
+            <button className="btnLogin" onClick={() => handleLogin("login")}>
+              <FontAwesomeIcon icon={faUser} size="lg" />
+              <span>Đăng nhập</span>
+            </button>
+          )}
+
+          <div className="logout-section">
+            <button className="btnLogout" onClick={handleLogout}>
+              <span>Đăng xuất</span>
+            </button>
+          </div>
         </div>
         {/* <h1 className="header">{renderHeader()}</h1> */}
         <div className="main-bar">
