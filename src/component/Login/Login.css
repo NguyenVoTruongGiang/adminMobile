@@ -1,0 +1,41 @@
+.login-container {
+    border: 1px solid #100f0f; 
+    border-radius: 5px; 
+    padding: 10px;
+    max-width: 350px;
+    margin-top: 12%;
+    margin-left: 37%;
+  }
+  
+  .form-item {
+    border: 1px solid #100f0f; 
+    border-radius: 5px; 
+    padding: 10px; /* Khoảng cách bên trong */
+    margin-bottom: 20px;
+
+  }
+  
+  .label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .input {
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #6d3a1e;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .error {
+    color: red;
+    margin-top: 10px;
+  }

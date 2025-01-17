@@ -1,57 +1,60 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
-import './Orders.css';
+import "./Orders.css";
+import { getOrders } from "../../api/OrderApiService";
+import { getAllUsers } from "../../api/UserApiService";
 
 const Orders = ({ setCurrentOrderView }) => {
-  const data = [
-    {
-      id: 1,
-      userId: 101,
-      products: [{ name: "Áo Thun", price: 1000 }],
-      shippingFee: 50,
-      time: "2023-10-01",
-      status: "Delivered",
-      address: {
-        houseNumber: "123",
-        commune: "Commune 1",
-        district: "District 1",
-        province: "Province 1",
-        phone: "123456789",
-      },
-    },
-    {
-      id: 2,
-      userId: 102,
-      products: [{ name: "Xe thể thao", price: 2000 }],
-      shippingFee: 100,
-      time: "2023-10-02",
-      status: "Pending",
-      address: {
-        houseNumber: "456",
-        commune: "Commune 2",
-        district: "District 2",
-        province: "Province 2",
-        phone: "987654321",
-      },
-    },
-  ];
+  const [orders, setOrders] = useState([]);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const getToken = localStorage.getItem("token");
+        const userEmail = localStorage.getItem("email");
+        if (getToken != null && userEmail != null) {
+          const response = await getAllUsers();
+          const allUser = response.data.data;
+          console.log("tất cả ng dùng: ", allUser);
+          const userEmail = localStorage.getItem("email");
+          console.log("email: ", userEmail);
+
+          const ordersResponse = await getOrders();
+          const allOrders = ordersResponse.data.data; // Assuming the response structure
+          console.log("Tất cả đơn hàng: ", allOrders);
+          setOrders(allOrders);
+        }
+      } catch (error) {
+        console.error("Failed to fetch orders:", error);
+      }
+    };
+
+    fetchOrders();
+  }, []);
 
   return (
     <div className="container">
       <table className="table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>ID đơn hànghàng</th>
-            <th>Đơn hàng</th>
-            <th>Giá</th>
-            <th>Trạng thái</th>
-            <th>Hoạt động</th>
+          <th>ID</th>
+            <th>User ID</th>
+            <th>User Name</th>
+            <th>Status</th>
+            <th>Total Price</th>
+            <th>Total Discount</th>
+            <th>Grand Total</th>
+            <th>Shipping Fee</th>
+            <th>Address</th>
+            <th>Created At</th>
+            <th>Cart Items</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {data.map((order) => (
+          {orders.map((order) => (
             <tr key={order.id}>
               <td>{order.id}</td>
               <td>{order.userId}</td>
@@ -72,7 +75,9 @@ const Orders = ({ setCurrentOrderView }) => {
               <td>
                 <div
                   className={`status ${
-                    order.status === "Delivered" ? "status-success" : "status-pending"
+                    order.status === "Delivered"
+                      ? "status-success"
+                      : "status-pending"
                   }`}
                 >
                   {order.status === "Delivered" ? "✔" : "✖"}

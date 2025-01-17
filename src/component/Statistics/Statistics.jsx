@@ -7,9 +7,21 @@ const StatisticsPage = () => {
   const [selectedRange, setSelectedRange] = useState("7 days");
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
+  const generateRandomData = () => {
+    return Array.from({ length: 7 }, () => Math.floor(Math.random() * 1000));
+  };
+
+  const [userStats, setUserStats] = useState(generateRandomData());
+  const [orderStats, setOrderStats] = useState(generateRandomData());
+  const [productStats, setProductStats] = useState(generateRandomData());
+
   const handleRangeChange = (range) => {
     setSelectedRange(range);
     setDropdownVisible(false); // Hide dropdown after selection
+    // Generate new random data when range changes
+    setUserStats(generateRandomData());
+    setOrderStats(generateRandomData());
+    setProductStats(generateRandomData());
   };
 
   const toggleDropdown = () => {
@@ -21,10 +33,25 @@ const StatisticsPage = () => {
     labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     datasets: [
       {
-        data: [200, 450, 300, 600, 700, 500, 400], 
+        label: 'Users',
+        data: userStats,
         fill: false,
         borderColor: 'rgba(34, 139, 230, 1)',
-        borderWidth: 2,
+        borderWidth: 5,
+      },
+      {
+        label: 'Orders',
+        data: orderStats,
+        fill: false,
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 5,
+      },
+      {
+        label: 'Products',
+        data: productStats,
+        fill: false,
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 5,
       },
     ],
   };
