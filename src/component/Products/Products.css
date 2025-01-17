@@ -2,6 +2,13 @@
   padding: 20px;
 }
 
+.products-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .header {
   font-size: 24px;
   margin-bottom: 20px;
@@ -45,4 +52,17 @@
   background: none;
   border: none;
   cursor: pointer;
+}
+
+.status-icon {
+  font-size: 18px; /* Điều chỉnh kích thước biểu tượng */
+  font-weight: bold;
+}
+
+.status-available {
+  color: green; /* Màu xanh lá */
+}
+
+.status-unavailable {
+  color: red; /* Màu đỏ */
 }

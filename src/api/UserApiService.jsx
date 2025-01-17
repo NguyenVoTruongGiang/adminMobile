@@ -1,9 +1,9 @@
 import { get, post, put, del, login } from "./ApiService";
 
-// Lấy danh sách người dùng
-export const getUsers = async () => {
-  return get("api/auth");
-};
+// // Lấy danh sách người dùng
+// export const getUsers = async () => {
+//   return get("api/auth");
+// };
 
 //lấy toàn bộ người dùng 
 export const getAllUsers = async () => {

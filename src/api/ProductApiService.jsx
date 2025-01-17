@@ -6,8 +6,8 @@ export const getProducts = async () => {
 };
 
 // Lấy thông tin chi tiết của một sản phẩm
-export const getProductById = async (productId) => {
-  return get(`api/products/${productId}`);
+export const getProductById = async (id) => {
+  return get(`api/products/${id}`);
 };
 
 // Tạo mới một sản phẩm
@@ -16,11 +16,11 @@ export const createProduct = async (productData) => {
 };
 
 // Cập nhật thông tin của một sản phẩm
-export const updateProduct = async (productId, productData) => {
-  return put(`api/products/${productId}`, productData);
+export const updateProduct = async (id, productData) => {
+  return put(`api/products/${id}`, productData);
 };
 
 // Xóa một sản phẩm
-export const deleteProduct = async (productId) => {
-  return del(`api/products/${productId}`);
+export const deleteProduct = async (id) => {
+  return del(`api/products/${id}`);
 };

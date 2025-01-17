@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {useNavigate, Outlet } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 // import Orders from "../Orders/Orders";
 // import Products from "../Products/Products";
 // import Users from "../Users/Users";
@@ -15,7 +15,8 @@ import {
   faFileInvoice,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import './Admin.css';
+import "./Admin.css";
+import { logout, refreshToken } from "../../api/UserApiService";
 
 const AdminPanel = () => {
   // const [selectedPage, handleNavigation] = useState("Orders");
@@ -45,7 +46,7 @@ const AdminPanel = () => {
     }
   }, []);
 
-  const handleLogout = async(event) => {
+  const handleLogout = async (event) => {
     event.preventDefault();
     localStorage.removeItem("token");
     localStorage.removeItem("email");
@@ -57,11 +58,26 @@ const AdminPanel = () => {
     } catch (error) {
       console.error("Failed to fetch orders:", error);
     }
-  }
+  };
 
-  const handleLogin = ()=> {
+  // useEffect(() => {
+  //   const intervalId = setInterval(async () => {
+  //     if (localStorage.getItem("token")) {
+  //       const refreshResponse = await refreshToken();
+  //       localStorage.setItem("token", refreshResponse.data.data.token);
+  //       console.log("Token refreshed: " + refreshResponse.data.data.token);
+  //     } else {
+  //       return;
+  //     }
+  //   }, 30000000); // 300000 milliseconds = 300 seconds
+
+  //   // Cleanup interval on component unmount
+  //   return () => clearInterval(intervalId);
+  // }, []);
+
+  const handleLogin = () => {
     navigate("/login");
-  }
+  };
 
   const handleNavigation = (page) => {
     navigate(`/admin/${page}`);
@@ -79,19 +95,31 @@ const AdminPanel = () => {
       <div className="sidebar">
         <h2 className="logo">Admin manager</h2>
         <div className="menu">
-          <button className="menu-item" onClick={() => handleNavigation("statistics")}>
+          <button
+            className="menu-item"
+            onClick={() => handleNavigation("statistics")}
+          >
             <FontAwesomeIcon icon={faFileInvoice} size="lg" />
             <span>Thống kê</span>
           </button>
-          <button className="menu-item" onClick={() => handleNavigation("orders")}>
+          <button
+            className="menu-item"
+            onClick={() => handleNavigation("orders")}
+          >
             <FontAwesomeIcon icon={faFileInvoice} size="lg" />
             <span>Quản lý đơn hàng</span>
           </button>
-          <button className="menu-item" onClick={() => handleNavigation("users")}>
+          <button
+            className="menu-item"
+            onClick={() => handleNavigation("users")}
+          >
             <FontAwesomeIcon icon={faUserFriends} size="lg" />
             <span>Quản lý khách hàng</span>
           </button>
-          <button className="menu-item" onClick={() => handleNavigation("products")}>
+          <button
+            className="menu-item"
+            onClick={() => handleNavigation("products")}
+          >
             <FontAwesomeIcon icon={faCube} size="lg" />
             <span>Quản lý sản phẩm</span>
           </button>
@@ -103,7 +131,7 @@ const AdminPanel = () => {
       </div>
       <div className="main-content">
         <div className="login-section">
-        {email ? (
+          {email ? (
             <div className="user-info">
               <FontAwesomeIcon icon={faUser} size="lg" />
               <span>Xin chào, {email}</span>
@@ -121,7 +149,6 @@ const AdminPanel = () => {
             </button>
           </div>
         </div>
-        {/* <h1 className="header">{renderHeader()}</h1> */}
         <div className="main-bar">
           <div className="filter-section">
             <div className="filter-item">
@@ -175,7 +202,6 @@ const AdminPanel = () => {
               Đặt lại
             </button>
           </div>
-          {/* {renderContent()} */}
           <Outlet />
         </div>
       </div>

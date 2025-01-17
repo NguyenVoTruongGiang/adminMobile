@@ -1,8 +1,7 @@
-// filepath: /d:/adminMobile/adminMobile/src/api/ApiService.jsx
 import axios from "axios";
 
-// Base URL cho API (không cần thiết khi sử dụng proxy)
-const baseUrl = "/"; // Sử dụng endpoint tương đối
+// Base URL cho API
+const baseUrl = "/"; // Cập nhật URL để trỏ đến cổng 8080
 
 // Hàm lấy token từ localStorage
 const getToken = () => {

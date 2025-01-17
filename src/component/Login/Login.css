@@ -1,11 +1,18 @@
 .login-container {
-    padding: 20px;
-    max-width: 400px;
-    margin: 0 auto;
+    border: 1px solid #100f0f; 
+    border-radius: 5px; 
+    padding: 10px;
+    max-width: 350px;
+    margin-top: 12%;
+    margin-left: 37%;
   }
   
   .form-item {
+    border: 1px solid #100f0f; 
+    border-radius: 5px; 
+    padding: 10px; /* Khoảng cách bên trong */
     margin-bottom: 20px;
+
   }
   
   .label {
@@ -22,7 +29,7 @@
   .button {
     padding: 10px 20px;
     cursor: pointer;
-    background-color: #4caf50;
+    background-color: #6d3a1e;
     color: #fff;
     border: none;
     border-radius: 5px;

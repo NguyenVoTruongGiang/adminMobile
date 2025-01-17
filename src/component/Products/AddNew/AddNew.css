@@ -11,6 +11,21 @@
   margin-bottom: 20px;
 }
 
+.size {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.from {
+  width: 40%;
+
+}
+
+.to {
+  width: 40%;
+}
+
 .label {
   display: block;
   text-align: left;

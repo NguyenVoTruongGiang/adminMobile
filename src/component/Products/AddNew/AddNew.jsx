@@ -3,22 +3,22 @@ import "./AddNew.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-// import { createProduct } from "../../api/ProductApiService";
+import { createProduct } from "../../../api/ProductApiService";
 
 const AddNew = () => {
-  const [selectedType, setSelectedType] = useState("");
   const [id, setId] = useState("");
-  const [productName, setProductName] = useState("");
+  const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [imageUri, setImageUri] = useState("");
+  const [productMediaUrls, setProductMediaUrls] = useState([]);
+  const [size, setSize] = useState([]);
+  const [description, setDescription] = useState("");
 
   const selectImage = async (event) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImageUri(reader.result);
+        setProductMediaUrls(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -32,20 +32,20 @@ const AddNew = () => {
 
   const handleCreate = async () => {
     const newProduct = {
-      id,
-      productName,
+      name,
+      description,
       price,
-      selectedType,
-      quantity,
-      imageUri,
+      size,
+      productMediaUrls,
     };
 
-    // try {
-    //   await createProduct(newProduct);
-    //   navigate("/admin/products");
-    // } catch (error) {
-    //   console.error("Failed to create product:", error);
-    // }
+    try {
+      const response = await createProduct(newProduct);
+      console.log("Product created:", response);
+      navigate("/admin/products");
+    } catch (error) {
+      console.error("Failed to create product:", error);
+    }
   };
 
   return (
@@ -53,16 +53,6 @@ const AddNew = () => {
       <button className="swapper">
         <FontAwesomeIcon icon={faArrowLeft} onClick={handleBack} />
       </button>
-      <div className="form-item">
-        <label className="label">ID</label>
-        <input
-          className="input"
-          type="text"
-          placeholder="Enter ID"
-          value={id}
-          onChange={(e) => setId(e.target.value)}
-        />
-      </div>
 
       <div className="form-item">
         <label className="label">Tên sản phẩm</label>
@@ -70,8 +60,19 @@ const AddNew = () => {
           className="input"
           type="text"
           placeholder="Enter Product Name"
-          value={productName}
-          onChange={(e) => setProductName(e.target.value)}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </div>
+
+      <div className="form-item">
+        <label className="label">mô tả</label>
+        <input
+          className="input"
+          type="text"
+          placeholder="Nhập mô tả"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
         />
       </div>
 
@@ -86,39 +87,41 @@ const AddNew = () => {
         />
       </div>
 
-      <div className="form-item">
-        <label className="label">Loại sản phẩm</label>
-        <select
-          className="input"
-          value={selectedType}
-          onChange={(e) => setSelectedType(e.target.value)}
-        >
-          <option value="">Chọn loại sản phẩm</option>
-          <option value="giày đi bộ">giày đi bộ</option>
-          <option value="giày da">giày da</option>
-          <option value="giày thể thao">giày thể thao</option>
-          <option value="Các loại giày khác">Các loại giày khác</option>
-        </select>
-      </div>
-
-      <div className="form-item">
-        <label className="label">Số lượng</label>
+      <div className="form-item size">
+        <div className="from">
+        <label className="label">từ</label>
         <input
           className="input"
           type="text"
-          placeholder="Enter Quantity"
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
+          placeholder="Enter size"
+          value={[size]}
+          onChange={(e) => setSize(e.target.value)}
         />
+        </div>
+        <div className="to">
+          <label className="label">đến</label>
+          <input
+            className="input"
+            type="text"
+            placeholder="Enter Price"
+            value={[size]}
+            onChange={(e) => setSize(e.target.value)}
+          />
+        </div>
+
       </div>
 
       <div className="form-item">
         <label className="label">Hình ảnh</label>
         <input type="file" onChange={selectImage} />
-        {imageUri && <img src={imageUri} alt="Selected" className="image" />}
+        {productMediaUrls && (
+          <img src={productMediaUrls} alt="Selected" className="image" />
+        )}
       </div>
 
-      <button className="button" onClick={handleCreate}>Thêm sản phẩm</button>
+      <button className="button" onClick={handleCreate}>
+        Thêm sản phẩm
+      </button>
     </div>
   );
 };

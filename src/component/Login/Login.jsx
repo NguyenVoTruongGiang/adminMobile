@@ -46,15 +46,6 @@ const Login = () => {
         localStorage.setItem("id", userIdId);
         console.log("email: ", userEmail);
         localStorage.setItem("email", userEmail);
-
-        const intervalId = setInterval(async () => {
-        const refreshResponse = await refreshToken();
-        localStorage.setItem("token", refreshResponse.data.data.token);
-        console.log("Token refreshed: " + refreshResponse.data.data.token);
-        }, 3000000); // 300000 milliseconds = 300 seconds
-
-        // Cleanup interval on component unmount
-        return () => clearInterval(intervalId);
       }
     } catch (error) {
       console.error("Failed to fetch orders:", error);

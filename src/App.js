@@ -32,6 +32,7 @@ function App() {
             <Route path="settings" element={<div>Cài đặt</div>} />
             <Route path="*" element={<Navigate to="statistics" />} />
           </Route>
+          {/* <Route path="/products/edit" element={<EditProduct />} /> */}
         </Routes>
       </div>
     </Router>
